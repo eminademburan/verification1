@@ -15,62 +15,152 @@ import SignFormLink from "./components/SignFormLink";
 import SignFormCaptcha from "./components/SignFormCaptcha";
 import SignFormError from "./components/SignFormError";
 import Warning from "./components/Warning";
+import FacebookLogin from "react-facebook-login";
+
+
+
 
 function SigninPage() {
   
-  
+  const [loggedInWithFacebook, setloggedInWithFacebook] = useState(false);
+  const [loggedInWithNetflix, setloggedInWithNetflix] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [userID, setuserID] = useState("");
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [picture, setpicture] = useState("");
+
+  var fbContent;
+
+  function Facebook() {
+    
+
+    const responseFacebook = (response) =>  {
+      
+      setuserID(response.userID);
+      setisLoggedIn(true);
+      setloggedInWithFacebook(true);
+      setname(response.name);
+      setemail( response.email);
+      setpicture(response.picture.data.url);
+    };
+
+
+    
+
+    if (!isLoggedIn) {
+      fbContent = (
+      <FacebookLogin
+          appId="997105144497078"
+          autoLoad={true}
+          fields="name,email,picture"
+          callback={responseFacebook}
+      />
+      );
+    } 
+    return <div>{fbContent}</div>;
+  }
+   
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  
 
   const IsInvalid = password === "" || emailAddress === "";
+  function netflixLogin (event) {
+      
+    event.preventDefault();
+    setloggedInWithNetflix(true);
+    
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
 
   
   }
-
-  return (
-    <>
-      <HeaderWrapper className="header-wrapper-home">
-        <NavBar className="navbar-signin">
-          <Logo />
-        </NavBar>
-        <SignFormWrapper>
-          <SignFormBase onSubmit={handleSubmit} method="POST">
-            <Warning>NOT official Netflix</Warning>
-            <SignFormTitle>Sign In</SignFormTitle>
-            {error ? <SignFormError>{error}</SignFormError> : null}
-            <SignFormInput
-              type="text"
-              placeholder="Email Address"
-              value={emailAddress}
-              onChange={({ target }) => setEmailAddress(target.value)}
-            />
-            <SignFormInput
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-            <SignFormButton disabled={IsInvalid}>Sign In</SignFormButton>
-            <SignFormText>
-              New to Netflix?
-              <SignFormLink href="/signup">Sign up now.</SignFormLink>
-            </SignFormText>
-            <SignFormCaptcha>
-              This page is protected by Google reCAPTCHA to ensure you are not a
-              bot.
-            </SignFormCaptcha>
-          </SignFormBase>
-        </SignFormWrapper>
-      </HeaderWrapper>
-      <FooterCompound />
-    </>
-  );
+  
+  if( !loggedInWithFacebook && !loggedInWithNetflix)
+  {
+    return (
+      <>
+        <HeaderWrapper className="header-wrapper-home">
+          <NavBar className="navbar-signin">
+            <Logo />
+          </NavBar>
+          <SignFormWrapper>
+            <SignFormBase onSubmit={handleSubmit} method="POST">
+              <Warning>NOT official Netflix</Warning>
+              <SignFormTitle>Sign In</SignFormTitle>
+              {error ? <SignFormError>{error}</SignFormError> : null}
+              <SignFormInput
+                type="text"
+                placeholder="Email Address"
+                value={emailAddress}
+                onChange={({ target }) => setEmailAddress(target.value)}
+              />
+              <SignFormInput
+                type="password"
+                placeholder="Password"
+                autoComplete="off"
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+              />
+              <SignFormButton onClick= {netflixLogin}>Sign In</SignFormButton>
+              <Facebook />
+              <SignFormText>
+                New to Netflix?
+                <SignFormLink href="/signup">Sign up now.</SignFormLink>
+              </SignFormText>
+              <SignFormCaptcha>
+                This page is protected by Google reCAPTCHA to ensure you are not a
+                bot.
+              </SignFormCaptcha>
+            </SignFormBase>
+          </SignFormWrapper>
+        </HeaderWrapper>
+        <FooterCompound />
+      </>
+    );
+    }
+  else if( loggedInWithFacebook)
+  {
+    fbContent = (
+      <div
+        style={{
+          width: "400px",
+          margin: "auto",
+          background: "#f4f4f4",
+          padding: "20px"
+        }}
+      >
+        <img src={picture} alt={name} />
+        <h2>Welcome {name}</h2>
+        Email: {email}
+      </div>
+    );
+    return <div>{fbContent}</div>;
+  }
+  else if( loggedInWithNetflix)
+  {
+    
+    fbContent = (
+      <div
+        style={{
+          width: "400px",
+          margin: "auto",
+          background: "#f4f4f4",
+          padding: "20px"
+        }}
+      >
+        
+        <h2>Welcome {emailAddress}</h2>
+      </div>
+    );
+    return <div>{fbContent}</div>;
+  }
+  
 }
 
 export default SigninPage;
