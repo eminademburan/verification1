@@ -16,6 +16,7 @@ import SignFormCaptcha from "./components/SignFormCaptcha";
 import SignFormError from "./components/SignFormError";
 import Warning from "./components/Warning";
 import FacebookLogin from "react-facebook-login";
+import "./facebookButton.css"
 
 
 
@@ -55,6 +56,10 @@ function SigninPage() {
           autoLoad={true}
           fields="name,email,picture"
           callback={responseFacebook}
+          cssClass="btnFacebook"
+          icon="fa-facebook"
+          textButton = "&nbsp;&nbsp;Sign In with Facebook"
+
       />
       );
     } 
@@ -91,7 +96,6 @@ function SigninPage() {
           </NavBar>
           <SignFormWrapper>
             <SignFormBase onSubmit={handleSubmit} method="POST">
-              <Warning>NOT official Netflix</Warning>
               <SignFormTitle>Sign In</SignFormTitle>
               {error ? <SignFormError>{error}</SignFormError> : null}
               <SignFormInput
@@ -119,8 +123,9 @@ function SigninPage() {
               </SignFormCaptcha>
             </SignFormBase>
           </SignFormWrapper>
+          <FooterCompound />
         </HeaderWrapper>
-        <FooterCompound />
+        
       </>
     );
     }
