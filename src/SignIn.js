@@ -1,23 +1,14 @@
 
    
 import React, { useState, useContext } from "react";
-import HeaderWrapper from "./components/HeaderWrapper";
-import NavBar from "./components/NavBar";
-import Logo from "./components/Logo";
-import FooterCompound from "./components/FooterCompound";
-import SignFormWrapper from "./components/SignFormWrapper";
-import SignFormBase from "./components/SignFormBase";
-import SignFormTitle from "./components/SignFormTitle";
-import SignFormInput from "./components/SignFormInput";
-import SignFormButton from "./components/SignFormButton";
-import SignFormText from "./components/SignFormText";
-import SignFormLink from "./components/SignFormLink";
-import SignFormCaptcha from "./components/SignFormCaptcha";
-import SignFormError from "./components/SignFormError";
-import Warning from "./components/Warning";
 import FacebookLogin from "react-facebook-login";
-import "./facebookButton.css"
-
+import netflix_logo from "./favicon.png";
+import "./HeaderStyles.css"
+import "./AccordionStyles.css";
+import "./FeatureStyles.css";
+import "./FooterStyles.css";
+import "./SignFormStyles.css";
+import "./facebookButton.css";
 
 
 
@@ -69,10 +60,8 @@ function SigninPage() {
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   
 
-  const IsInvalid = password === "" || emailAddress === "";
   function netflixLogin (event) {
       
     event.preventDefault();
@@ -90,41 +79,66 @@ function SigninPage() {
   {
     return (
       <>
-        <HeaderWrapper className="header-wrapper-home">
-          <NavBar className="navbar-signin">
-            <Logo />
-          </NavBar>
-          <SignFormWrapper>
-            <SignFormBase onSubmit={handleSubmit} method="POST">
-              <SignFormTitle>Sign In</SignFormTitle>
-              {error ? <SignFormError>{error}</SignFormError> : null}
-              <SignFormInput
+        <header className="header-wrapper-home">
+          <nav className="navbar-signin">
+            <a href="/"   >
+              <img className="logo" href="/" src={netflix_logo}/>
+            </a>  
+          </nav>
+          <div className="sign-form-wrapper">
+            <form className="sign-form-base" onSubmit={handleSubmit} method="POST">
+            <h1 className="sign-form-title">Sign In</h1>
+              
+              <input className="sign-form-input"
                 type="text"
                 placeholder="Email Address"
                 value={emailAddress}
                 onChange={({ target }) => setEmailAddress(target.value)}
               />
-              <SignFormInput
+              <input className="sign-form-input"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
               />
-              <SignFormButton onClick= {netflixLogin}>Sign In</SignFormButton>
+              <button className="sign-form-Button" type="submit" onClick= {netflixLogin}>Sign In</button>
               <Facebook />
-              <SignFormText>
+              <p className="sign-form-text">
                 New to Netflix?
-                <SignFormLink href="/signup">Sign up now.</SignFormLink>
-              </SignFormText>
-              <SignFormCaptcha>
+                <a className="sign-form-link" > Sign up now. </a>
+              </p>
+              <p className="sign-form-captcha">
                 This page is protected by Google reCAPTCHA to ensure you are not a
                 bot.
-              </SignFormCaptcha>
-            </SignFormBase>
-          </SignFormWrapper>
-          <FooterCompound />
-        </HeaderWrapper>
+              </p>
+            </form>
+          </div>
+          <footer className="footer-wrapper">
+            <a href="#" className="footer-title">Questions? Contact us.</a>
+            <div className="footer-row">
+              <div className="footer-column">
+                <a href="#" className="footer-link">FAQ</a>
+                <a href="#" className="footer-link">Investor Relations</a>
+                <a href="#" className="footer-link">Privacy</a>
+                <a href="#" className="footer-link">Speed Test</a>
+              </div>
+              <div className="footer-column">
+                <a href="#" className="footer-link">Help Center</a>
+                <a href="#" className="footer-link">Jobs</a>
+                <a href="#" className="footer-link">Cookie Preferences</a>
+                <a href="#" className="footer-link">Legal Notices</a>
+              </div>
+              <div className="footer-column">
+                <a href="#" className="footer-link">Account</a>
+                <a href="#" className="footer-link">Ways to Watch</a>
+                <a href="#" className="footer-link">Corporate Information</a>
+                <a href="#" className="footer-link">Netflix Originals</a>
+              </div>
+              
+            </div>
+          </footer>
+        </header>
         
       </>
     );
