@@ -24,7 +24,7 @@ function SigninPage() {
 
   var fbContent;
 
-  function Facebook() {
+  
     
 
     const responseFacebook = (response) =>  {
@@ -36,26 +36,7 @@ function SigninPage() {
       setemail( response.email);
       setpicture(response.picture.data.url);
     };
-
-
-    
-
-    if (!isLoggedIn) {
-      fbContent = (
-      <FacebookLogin
-          appId="997105144497078"
-          autoLoad={true}
-          fields="name,email,picture"
-          callback={responseFacebook}
-          cssClass="btnFacebook"
-          icon="fa-facebook"
-          textButton = "&nbsp;&nbsp;Sign In with Facebook"
-
-      />
-      );
-    } 
-    return <div>{fbContent}</div>;
-  }
+  
    
 
   const [emailAddress, setEmailAddress] = useState("");
@@ -78,7 +59,7 @@ function SigninPage() {
   if( !loggedInWithFacebook && !loggedInWithNetflix)
   {
     return (
-      <>
+      
         <header className="header-wrapper-home">
           <nav className="navbar-signin">
             <a href="/"   >
@@ -103,7 +84,15 @@ function SigninPage() {
                 onChange={({ target }) => setPassword(target.value)}
               />
               <button className="sign-form-Button" type="submit" onClick= {netflixLogin}>Sign In</button>
-              <Facebook />
+              <FacebookLogin
+                appId="997105144497078"
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={responseFacebook}
+                cssClass="btnFacebook"
+                icon="fa-facebook"
+                textButton = "&nbsp;&nbsp;Sign In with Facebook"
+              />
               <p className="sign-form-text">
                 New to Netflix?
                 <a className="sign-form-link" > Sign up now. </a>
@@ -140,7 +129,7 @@ function SigninPage() {
           </footer>
         </header>
         
-      </>
+      
     );
     }
   else if( loggedInWithFacebook)
