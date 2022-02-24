@@ -13,7 +13,9 @@ import "./facebookButton.css";
 
 
 function SigninPage() {
-  
+
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
   const [loggedInWithFacebook, setloggedInWithFacebook] = useState(false);
   const [loggedInWithNetflix, setloggedInWithNetflix] = useState(false);
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -21,6 +23,58 @@ function SigninPage() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [picture, setpicture] = useState("");
+
+  var dict = {
+    "ademsan99@gmail.com": "hellomello1",
+    "ardaakcabuyuk@gmail.com":"hellomello2",
+    "elifozer@gmail.com":"hellomello3",
+    "ssemihd@gmail.com":"hellomello4"
+  };
+
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const validatePhone = (phone) => {
+    return String(phone)
+    .toLowerCase()
+    .match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+  };
+
+  const validateRegistration = (key, value) => {
+    var fvalue = dict[key];
+    if (fvalue === value ) {
+      return true;
+    } 
+    return false;
+  };
+
+  function signIn() {
+    console.log("type: ", typeof(validateEmail(emailAddress)))
+    // pasword character length check
+    if (password.length < 4   || password.length > 60) {
+      setloggedInWithNetflix(false);
+      alert("Your password length should be between 4 and  60");
+    }
+    else if (validateEmail(emailAddress)  || validatePhone(emailAddress)) { // email format check
+      if (validateRegistration(emailAddress, password)) { // email and password registration check
+        setloggedInWithNetflix(true);
+      }
+      else { // not registered
+        alert("username or password is not correct.");
+      }
+    } 
+    else {
+      alert("Please enter a valid email or phone number.");
+    }
+  }
+  
+  
 
   var fbContent;
 
@@ -36,19 +90,6 @@ function SigninPage() {
       setemail( response.email);
       setpicture(response.picture.data.url);
     };
-  
-   
-
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  
-
-  function netflixLogin (event) {
-      
-    event.preventDefault();
-    setloggedInWithNetflix(true);
-    
-  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -83,7 +124,7 @@ function SigninPage() {
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
               />
-              <button className="sign-form-Button" type="submit" onClick= {netflixLogin}>Sign In</button>
+              <button className="sign-form-Button" type="submit" onClick= {signIn}>Sign In</button>
               <FacebookLogin
                 appId="997105144497078"
                 autoLoad={false}
