@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import FacebookLogin from "react-facebook-login";
-import netflix_logo from "./favicon.png";
+import netflix_logo from "./netflix_logo.png";
 import "./App.css";
 
 function SigninPage() {
