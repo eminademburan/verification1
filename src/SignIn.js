@@ -55,8 +55,7 @@ function SigninPage() {
   };
 
   function signIn() {
-    console.log("type: ", typeof(validateEmail(emailAddress)))
-    // pasword character length check
+    
     if (password.length < 4   || password.length > 60) {
       setloggedInWithNetflix(false);
       alert("Your password length should be between 4 and  60");
