@@ -45,7 +45,7 @@ function SigninPage() {
 
   function signIn() {
     if (password.length == 0 || password.length == 0) {
-      alert("username or password are should be filled.");
+      alert("username or password should be filled.");
     } 
     else if(password.length < 4 || password.length > 60  )
     {
