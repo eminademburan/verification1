@@ -44,10 +44,16 @@ function SigninPage() {
   };
 
   function signIn() {
-    if (password.length < 4 || password.length > 60) {
+    if (password.length == 0 || password.length == 0) {
+      alert("username or password are should be filled.");
+    } 
+    else if(password.length < 4 || password.length > 60  )
+    {
       setloggedInWithNetflix(false);
       alert("Your password length should be between 4 and  60");
-    } else if (validateEmail(emailAddress) || validatePhone(emailAddress)) {
+      
+    }
+    else if (validateEmail(emailAddress) || validatePhone(emailAddress)) {
       // email format check
       if (validateRegistration(emailAddress, password)) {
         // email and password registration check
@@ -56,7 +62,8 @@ function SigninPage() {
         // not registered
         alert("username or password is not correct.");
       }
-    } else {
+    } 
+    else {
       alert("Please enter a valid email or phone number.");
     }
   }
