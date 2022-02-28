@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -38,6 +39,10 @@
 }
 
 /*////////////////////////////////////*/
+.remember-me{
+  color: rgb(163, 162, 162);
+  padding-bottom: 20px;
+}
 
 .accordion-wrapper {
   max-width: 815px;
@@ -120,7 +125,7 @@
   height: 35px;
   border-radius: 4px;
   background: transparent;
-  color: rgb(126, 123, 123);
+  color: rgb(111, 95, 167);
   border: 0px transparent;
   text-align: center;
   margin: 5px;

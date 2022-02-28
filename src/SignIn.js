@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FormControlLabel, Checkbox, Component } from "react";
 import FacebookLogin from "react-facebook-login";
 import netflix_logo from "./netflix_logo.png";
+import { useCookies } from 'react-cookie';
 import "./App.css";
 
 function SigninPage() {
@@ -13,7 +14,31 @@ function SigninPage() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [picture, setpicture] = useState("");
+  const [rememberMe, setrememberMe] = useState(false);
+  const [mailText, setmailText] = useState("");
+  const [passwordText, setpasswordText] = useState("");
 
+
+  const [cookies1, setCookie1] = useCookies(["user"]);
+  const [cookies2, setCookie2] = useCookies(["password"]);
+
+  const [emailAddress2, setEmailAddress2] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  
+
+  
+
+  function handleCookie() {
+    setCookie1("user", emailAddress, {
+      path: "/", maxAge: 100
+    });
+    setCookie2("password", password, {
+      path: "/", maxAge: 100
+    });
+  }
+  
+  
   var dict = {
     "ademsan99@gmail.com": "hellomello1",
     "ardaakcabuyuk@gmail.com": "hellomello2",
@@ -43,28 +68,67 @@ function SigninPage() {
     return false;
   };
 
+  function getCookies()
+  {
+    
+    if(  !cookies1.user == "" && !cookies2.password == "")
+    {
+      setEmailAddress2( cookies1.user);
+      setPassword2( cookies1.password);
+    
+      if(validateRegistration(emailAddress2, password2)  )
+      {
+        setEmailAddress(emailAddress2);
+        setloggedInWithNetflix(true);
+      }
+    }
+    
+    
+  }
+
+  
+
   function signIn() {
-    if (password.length == 0 || password.length == 0) {
-      alert("username or password should be filled.");
+    
+    if (password.length == 0 && emailAddress.length == 0) {
+      setmailText("Email adress should be filled");
+      setpasswordText("Password should be filled");
     } 
+    else if( password.length == 0)
+    {
+      setpasswordText("Password should be filled");
+      setmailText("");
+    }
+    else if( emailAddress.length == 0)
+    {
+      setmailText("Email adress should be filled");
+      setpasswordText("");
+    }
     else if(password.length < 4 || password.length > 60  )
     {
       setloggedInWithNetflix(false);
-      alert("Your password length should be between 4 and  60");
-      
+      setmailText("");
+      setpasswordText("Your password length should be between 4 and  60");
     }
     else if (validateEmail(emailAddress) || validatePhone(emailAddress)) {
       // email format check
       if (validateRegistration(emailAddress, password)) {
         // email and password registration check
+        if(rememberMe)
+        {
+          handleCookie();
+        }
         setloggedInWithNetflix(true);
       } else {
         // not registered
-        alert("username or password is not correct.");
+        setmailText("");
+        setpasswordText("username or password is not correct");
+        
       }
     } 
     else {
-      alert("Please enter a valid email or phone number.");
+      setmailText("Please enter a valid email or phone number.");
+      setpasswordText("");
     }
   }
 
@@ -83,7 +147,12 @@ function SigninPage() {
     event.preventDefault();
   }
 
-  if (!loggedInWithFacebook && !loggedInWithNetflix) {
+  
+
+  if (!loggedInWithFacebook && !loggedInWithNetflix ) {
+    
+    getCookies();
+    
     return (
       <header className="header-wrapper-home">
         <nav className="navbar-signin">
@@ -106,6 +175,7 @@ function SigninPage() {
               value={emailAddress}
               onChange={({ target }) => setEmailAddress(target.value)}
             />
+            <h5 className="remember-me"> {mailText} </h5>
             <input
               className="sign-form-input"
               type="password"
@@ -114,9 +184,13 @@ function SigninPage() {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
+            <h5 className="remember-me"> {passwordText} </h5>
+
             <button className="sign-form-Button" type="submit" onClick={signIn}>
               Sign In
             </button>
+            
+            <div><input type="checkbox"  onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
             <FacebookLogin
               appId="997105144497078"
               autoLoad={false}
@@ -126,6 +200,7 @@ function SigninPage() {
               icon="fa-facebook"
               textButton="&nbsp;&nbsp;Sign In with Facebook"
             />
+            
             <p className="sign-form-text">
               New to Netflix?
               <a className="sign-form-link"> Sign up now. </a>
@@ -187,7 +262,8 @@ function SigninPage() {
         </footer>
       </header>
     );
-  } else if (loggedInWithFacebook) {
+  } 
+  else if (loggedInWithFacebook) {
     fbContent = (
       <div
         style={{
