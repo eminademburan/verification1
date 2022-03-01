@@ -192,7 +192,7 @@ function SigninPage() {
               Sign In
             </button>
             
-            <div><input type="checkbox"  onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
+            <div><input type="checkbox" name="checkbox" onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
             <FacebookLogin
               appId="462323112206715"
               autoLoad={false}

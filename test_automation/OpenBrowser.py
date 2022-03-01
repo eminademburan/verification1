@@ -134,9 +134,34 @@ def test_case_2():
     time.sleep(60)
     driver.close()
 
+def test_case_4():
+
+    email = 'elifozer@gmail.com'
+    password = 'hellomello3'
+    driver = webdriver.Chrome("chromedriver")
+    driver.get("http://localhost:3000")
+
+    password_field = get_password_field(driver)
+    email_field = get_email_field(driver)
+
+    type_email(driver, email_field, email)
+    type_password(password_field, password)
+
+    remember_me_button = driver.find_element(By.NAME, "checkbox")
+    remember_me_button.click()
+    click_login_button(driver)
+    time.sleep(2)
+
+    driver.execute_script("window.open('http://localhost:3000')")
+
+    print("Test case 4 ")
+    time.sleep(60)
+    driver.close()
+
 def main():
-    test_case_1()
-    test_case_2()
+    #test_case_1()
+    #test_case_2()
+    test_case_4()
 
 if __name__ == '__main__':
     main()
