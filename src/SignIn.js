@@ -25,10 +25,6 @@ function SigninPage() {
   const [emailAddress2, setEmailAddress2] = useState("");
   const [password2, setPassword2] = useState("");
 
-  
-
-  
-
   function handleCookie() {
     setCookie1("user", emailAddress, {
       path: "/", maxAge: 100
@@ -188,14 +184,13 @@ function SigninPage() {
               onChange={({ target }) => setPassword(target.value)}
             />
             <h5 className="empty-password"> {passwordText} </h5>
-
             <button className="sign-form-Button" type="submit" onClick={signIn}>
               Sign In
             </button>
-            
+
             <div><input type="checkbox" name="checkbox" onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
             <FacebookLogin
-              appId="462323112206715"
+              appId="2083176028515656"
               autoLoad={false}
               fields="name,email,picture"
               callback={responseFacebook}
@@ -281,6 +276,7 @@ function SigninPage() {
         Email: {email}
       </div>
     );
+    window.history.pushState({}, null, "/welcome");
     return <div>{fbContent}</div>;
   } else if (loggedInWithNetflix) {
     fbContent = (

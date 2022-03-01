@@ -63,9 +63,9 @@ def test_case_1():
     click_login_button(driver)
 
     if empty_email_phone_error_element.text == empty_email_phone_msg and empty_password_error_element.text == "":
-        print('Test 1.1 successful')
+        print('Test case 1.1 successful')
     else:
-        print('Test 1.1 failed')
+        print('Test case 1.1 failed')
 
     driver.refresh()
     empty_email_phone_error_element, empty_password_error_element, email_field, password_field = prepare_test_case_1(driver)
@@ -76,9 +76,9 @@ def test_case_1():
     click_login_button(driver)
 
     if empty_password_error_element.text == empty_password_msg and empty_email_phone_error_element.text == "":
-        print('Test 1.2 successful')
+        print('Test case 1.2 successful')
     else:
-        print('Test 1.2 failed')
+        print('Test case 1.2 failed')
 
     driver.refresh()
     empty_email_phone_error_element, empty_password_error_element, email_field, password_field = prepare_test_case_1(driver)
@@ -88,9 +88,9 @@ def test_case_1():
     click_login_button(driver)
 
     if empty_password_error_element.text == empty_password_msg and empty_email_phone_error_element.text == empty_email_phone_msg:
-        print('Test 1.3 successful')
+        print('Test case 1.3 successful')
     else:
-        print('Test 1.3 failed')
+        print('Test case 1.3 failed')
 
 def check_valid_email(email):
     reg = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -118,7 +118,7 @@ def test_case_2():
     click_login_button(driver)
 
     if valid_email == False:
-        print("Test 2.1 Succesful")
+        print("Test case 2.1 Succesful")
 
     #Invalid Phone Number Entered
 
@@ -128,7 +128,7 @@ def test_case_2():
     valid_phone = check_valid_phone(phone_number)
     click_login_button(driver)
     if valid_phone == False:
-        print("Test 2.2 Succesful")
+        print("Test case 2.2 Succesful")
 
     driver.close()
 
@@ -149,9 +149,9 @@ def test_case_3():
     success_msg_safari = safaridriver.find_element(By.XPATH, '//h2').text
 
     if (success_msg_safari == "Welcome +495514022041"):
-        print("Test 3.1 Succesful")
+        print("Test case 3.1 Succesful")
     else:
-        print("Test 3.1 Failed")
+        print("Test case 3.1 Failed")
 
     # TEST CASE 3.2 Chrome #
     chromedriver = webdriver.Chrome()
@@ -168,16 +168,16 @@ def test_case_3():
     success_msg_chrome = chromedriver.find_element(By.XPATH, '//h2').text
 
     if (success_msg_chrome == "Welcome elifozer@gmail.com"):
-        print("Test 3.2 Succesful")
+        print("Test case 3.2 Succesful")
     else:
-        print("Test 3.2 Failed")
+        print("Test case 3.2 Failed")
 
     safaridriver.close()
     chromedriver.close()
 
 
 def test_case_4():
-
+    print("\n### TEST CASE 4 ###")
     email = 'elifozer@gmail.com'
     password = 'hellomello3'
     driver = webdriver.Chrome("chromedriver")
@@ -198,10 +198,44 @@ def test_case_4():
     login_msg = driver.find_element(By.XPATH, '//h2').text
 
     if (login_msg == ("Welcome " + email)):
-        print("Test case 4 is successful")
+        print("Test case 4 successful")
     else:
-        print("Test case 4 is failed")
-    time.sleep(60)
+        print("Test case 4 failed")
+
+    driver.close()
+
+def test_case_5():
+    print("\n### TEST CASE 5 ###")
+    driver = open_signin_page()
+    main_page = driver.current_window_handle
+
+    facebook_login_button = driver.find_element(By.CLASS_NAME, "btnFacebook.metro")
+    facebook_login_button.click()
+
+    for handle in driver.window_handles:
+        if handle != main_page:
+            login_page = handle
+
+    driver.switch_to.window(login_page)
+
+    email_field = driver.find_element(By.NAME, "email")
+    type_email(driver, email_field, "ardaakcabuyuk@gmail.com")
+
+    password_field = driver.find_element(By.NAME, "pass")
+    type_password(password_field, "ardacs1789")
+
+    login_button = driver.find_element(By.NAME, "login")
+    login_button.click()
+    driver.find_element(By.ID, "back").click()
+
+    driver.switch_to.window(main_page)
+    time.sleep(2)
+
+    if driver.current_url == "http://localhost:3000/welcome":
+        print("Test case 5 successful")
+    else:
+        print("Test case 5 failed")
+
     driver.close()
 
 def main():
@@ -209,6 +243,7 @@ def main():
     test_case_2()
     test_case_3()
     test_case_4()
+    test_case_5()
 
 if __name__ == '__main__':
     main()
