@@ -153,8 +153,12 @@ def test_case_4():
     time.sleep(2)
 
     driver.execute_script("window.open('http://localhost:3000')")
+    login_msg = driver.find_element(By.XPATH, '//h2').text
 
-    print("Test case 4 ")
+    if (login_msg == ("Welcome " + email)):
+        print("Test case 4 is successful")
+    else:
+        print("Test case 4 is failed")
     time.sleep(60)
     driver.close()
 
