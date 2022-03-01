@@ -12,11 +12,11 @@ def open_signin_page():
     return driver
 
 def get_email_field(driver):
-    email_field = driver.find_element(By.NAME, "")
+    email_field = driver.find_element(By.NAME, "email")
     return email_field
 
 def get_password_field(driver):
-    password_field = driver.find_element(By.NAME, "")
+    password_field = driver.find_element(By.NAME, "password")
     return password_field
 
 def type_email(driver, email_field, email):
@@ -67,23 +67,44 @@ def check_valid_email(email):
 
     reg = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if(re.fullmatch(reg, email)):
-        print("Valid Email")
+        return True
     else:
-        print("Invalid Email")
+        return False
 
 def check_valid_phone(phone_number):
 
     phone_pattern = re.compile("(0|90)?[7-9][0-9]{9}")
     if(phone_pattern.match(phone_number)):
-        print("Valid Phone Number")
+        return True
     else:
-        print("Invalid Phone Number")
+        return False
 
 def test_case_2():
 
     driver = webdriver.Chrome("chromedriver")
     driver.get("http://localhost:3000")
+    email_or_phone = get_email_field(driver)
+    #Invalid Email entered
+    email = 'elifozer@elif'
+    type_email(driver, email_or_phone, email)
+    valid_email = check_valid_email(email)
+    click_login_button(driver)
 
+    if valid_email == False:
+        print("Test case 2 successful, invalid email entered")
+
+    #Invalid Phone Number Entered
+
+    email_or_phone.clear()
+    phone_number = '123456'
+    email_or_phone.send_keys(phone_number)
+    valid_phone = check_valid_phone(phone_number)
+    click_login_button(driver)
+    if valid_phone == False:
+        print("Test case 2 successful, invalid phone number entered")
+
+    time.sleep(60)
+    driver.close()
 
 def main():
     driver = open_signin_page()
@@ -101,7 +122,8 @@ def main():
 
 if __name__ == '__main__':
     #main()
-    test_case_1()
+    #test_case_1()
+    test_case_2()
 
     check_valid_email('elifozerr1@outlook.com')
     check_valid_email('email-invalid')
