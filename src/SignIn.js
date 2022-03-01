@@ -176,7 +176,7 @@ function SigninPage() {
               value={emailAddress}
               onChange={({ target }) => setEmailAddress(target.value)}
             />
-            <h5 className="empty-mail-phone"> {mailText} </h5>
+            <h5 className="empty-email-phone"> {mailText} </h5>
             <input
               className="sign-form-input"
               name="password"

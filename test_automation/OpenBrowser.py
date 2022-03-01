@@ -11,11 +11,11 @@ def open_signin_page():
     return driver
 
 def get_email_field(driver):
-    email_field = driver.find_element(By.NAME, "")
+    email_field = driver.find_element(By.NAME, "email")
     return email_field
 
 def get_password_field(driver):
-    password_field = driver.find_element(By.NAME, "")
+    password_field = driver.find_element(By.NAME, "password")
     return password_field
 
 def type_email(driver, email_field, email):
@@ -32,25 +32,32 @@ def click_login_button(driver):
     login_button = driver.find_element(By.CLASS_NAME, "sign-form-Button")
     login_button.click()
 
+
 ### TEST CASE 1 ###
 ### When the user clicks on the login button without typing anything on ###
 ### the email and password fields, an error message should pop below BOTH ###
 ### of these fields ###
 
-def test_case_1():
+def prepare_test_case_1(driver):
+    empty_email_phone_error_element = driver.find_element(by=By.CLASS_NAME, value="empty-email-phone")
+    empty_password_error_element = driver.find_element(by=By.CLASS_NAME, value="empty-password")
 
+    email_field = get_email_field(driver)
+    password_field = get_password_field(driver)
+
+    return empty_email_phone_error_element, empty_password_error_element, email_field, password_field
+
+def test_case_1():
     driver = webdriver.Chrome("chromedriver")
     driver.get("http://localhost:3000")
 
     empty_email_phone_msg = "Email adress should be filled"
     empty_password_msg = "Password should be filled"
 
-    empty_email_phone_error_element = driver.find_element(by=By.CLASS_NAME, value="empty-email-phone")
-    empty_password_error_element = driver.find_element(by=By.CLASS_NAME, value="empty-password")
+    empty_email_phone_error_element, empty_password_error_element, email_field, password_field = prepare_test_case_1(driver)
 
     # TEST CASE 1.1 #
     # Leave email/phonenumber field blank and check the error message #
-    password_field = get_password_field(driver)
     type_password(password_field, 'dummy')
     click_login_button(driver)
 
@@ -59,23 +66,33 @@ def test_case_1():
     else:
         print('Test 1.1 failed')
 
-    time.sleep(60)
-    driver.close()
+    driver.refresh()
+    empty_email_phone_error_element, empty_password_error_element, email_field, password_field = prepare_test_case_1(driver)
 
-def main():
-    driver = open_signin_page()
-
-    user_email = "elifozer@gmail.com"
-    user_password = "hellomello3"
-
-    type_email(driver, email_field, user_email)
-    type_password(password_field, user_password)
-
+    # TEST CASE 1.2 #
+    # Leave password field blank and check the error message #
+    email_field.send_keys('dummy')
     click_login_button(driver)
 
-    time.sleep(60)
-    driver.close()
+    if empty_password_error_element.text == empty_password_msg and empty_email_phone_error_element.text == "":
+        print('Test 1.2 successful')
+    else:
+        print('Test 1.2 failed')
+
+    driver.refresh()
+    empty_email_phone_error_element, empty_password_error_element, email_field, password_field = prepare_test_case_1(driver)
+
+    # TEST CASE 1.3 #
+    # Leave both fields blank and check the error messages #
+    click_login_button(driver)
+
+    if empty_password_error_element.text == empty_password_msg and empty_email_phone_error_element.text == empty_email_phone_msg:
+        print('Test 1.3 successful')
+    else:
+        print('Test 1.3 failed')
+
+def main():
+    test_case_1()
 
 if __name__ == '__main__':
-    #main()
-    test_case_1()
+    main()
