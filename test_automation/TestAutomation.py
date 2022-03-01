@@ -31,7 +31,7 @@ def type_password(password_field, password):
     password_field.send_keys(password)
 
 def click_login_button(driver):
-    login_button = driver.find_element(By.CLASS_NAME, "sign-form-Button")
+    login_button = driver.find_element(By.CLASS_NAME, "login-button")
     login_button.click()
 
 ### TEST CASE 1 ###
@@ -193,7 +193,6 @@ def test_case_4():
     remember_me_button = driver.find_element(By.NAME, "checkbox")
     remember_me_button.click()
     click_login_button(driver)
-    time.sleep(2)
 
     driver.execute_script("window.open('http://localhost:3000')")
     login_msg = driver.find_element(By.XPATH, '//h2').text

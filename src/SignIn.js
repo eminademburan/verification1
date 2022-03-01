@@ -162,14 +162,16 @@ function SigninPage() {
             <h1 className="login-title">Sign In</h1>
 
             <input
+              name="email"
               className="login-input-field"
               type="text"
               placeholder="Email Address"
               value={emailAddress}
               onChange={({ target }) => setEmailAddress(target.value)}
             />
-            <h5 className="remember-me"> {mailText} </h5>
+            <h5 className="empty-email-phone"> {mailText} </h5>
             <input
+              name="password"
               className="login-input-field"
               type="password"
               placeholder="Password"
@@ -177,7 +179,7 @@ function SigninPage() {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-            <h5 className="remember-me"> {passwordText} </h5>
+            <h5 className="empty-password"> {passwordText} </h5>
 
             <button className="login-button" type="submit" onClick={signIn}>
               Sign In
@@ -185,13 +187,14 @@ function SigninPage() {
 
             <div>
               <input
+                name="checkbox"
                 type="checkbox"
                 onChange={() => setrememberMe(!rememberMe)}
               />
               <span className="remember-me">Remember me</span>
             </div>
             <FacebookLogin
-              appId="997105144497078"
+              appId="2083176028515656"
               autoLoad={false}
               fields="name,email,picture"
               callback={responseFacebook}
