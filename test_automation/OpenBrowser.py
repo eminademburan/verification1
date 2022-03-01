@@ -48,6 +48,7 @@ def prepare_test_case_1(driver):
     return empty_email_phone_error_element, empty_password_error_element, email_field, password_field
 
 def test_case_1():
+    print("\n### TEST CASE 1 ###")
     driver = webdriver.Chrome("chromedriver")
     driver.get("http://localhost:3000")
 
@@ -92,7 +93,6 @@ def test_case_1():
         print('Test 1.3 failed')
 
 def check_valid_email(email):
-
     reg = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if(re.fullmatch(reg, email)):
         return True
@@ -100,7 +100,6 @@ def check_valid_email(email):
         return False
 
 def check_valid_phone(phone_number):
-
     phone_pattern = re.compile("(0|90)?[7-9][0-9]{9}")
     if(phone_pattern.match(phone_number)):
         return True
@@ -108,7 +107,7 @@ def check_valid_phone(phone_number):
         return False
 
 def test_case_2():
-
+    print("\n### TEST CASE 2 ###")
     driver = webdriver.Chrome("chromedriver")
     driver.get("http://localhost:3000")
     email_or_phone = get_email_field(driver)
@@ -119,7 +118,7 @@ def test_case_2():
     click_login_button(driver)
 
     if valid_email == False:
-        print("Test case 2 successful, invalid email entered")
+        print("Test 2.1 Succesful")
 
     #Invalid Phone Number Entered
 
@@ -129,14 +128,58 @@ def test_case_2():
     valid_phone = check_valid_phone(phone_number)
     click_login_button(driver)
     if valid_phone == False:
-        print("Test case 2 successful, invalid phone number entered")
+        print("Test 2.2 Succesful")
 
-    time.sleep(60)
     driver.close()
+
+def test_case_3():
+    print("\n### TEST CASE 3 ###")
+    # TEST CASE 3.1 Safari #
+    safaridriver = webdriver.Safari()
+    safaridriver.get("http://localhost:3000")
+
+    email_field_safari = get_email_field(safaridriver)
+    password_field_safari = get_password_field(safaridriver)
+
+    email_field_safari.send_keys('+495514022041')
+    type_password(password_field_safari, "hellomello0")
+
+    click_login_button(safaridriver)
+
+    success_msg_safari = safaridriver.find_element(By.XPATH, '//h2').text
+
+    if (success_msg_safari == "Welcome +495514022041"):
+        print("Test 3.1 Succesful")
+    else:
+        print("Test 3.1 Failed")
+
+    # TEST CASE 3.2 Chrome #
+    chromedriver = webdriver.Chrome()
+    chromedriver.get("http://localhost:3000")
+
+    email_field_chrome = get_email_field(chromedriver)
+    password_field_chrome = get_password_field(chromedriver)
+
+    type_email(chromedriver, email_field_chrome, "elifozer@gmail.com")
+    type_password(password_field_chrome, "hellomello3")
+
+    click_login_button(chromedriver)
+
+    success_msg_chrome = chromedriver.find_element(By.XPATH, '//h2').text
+
+    if (success_msg_chrome == "Welcome elifozer@gmail.com"):
+        print("Test 3.2 Succesful")
+    else:
+        print("Test 3.2 Failed")
+
+    safaridriver.close()
+    chromedriver.close()
+
 
 def main():
     test_case_1()
     test_case_2()
+    test_case_3()
 
 if __name__ == '__main__':
     main()
