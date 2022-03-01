@@ -176,7 +176,7 @@ function SigninPage() {
               value={emailAddress}
               onChange={({ target }) => setEmailAddress(target.value)}
             />
-            <h5 className="remember-me"> {mailText} </h5>
+            <h5 className="empty-mail-phone"> {mailText} </h5>
             <input
               className="sign-form-input"
               name="password"
@@ -186,7 +186,7 @@ function SigninPage() {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-            <h5 className="remember-me"> {passwordText} </h5>
+            <h5 className="empty-password"> {passwordText} </h5>
 
             <button className="sign-form-Button" type="submit" onClick={signIn}>
               Sign In
