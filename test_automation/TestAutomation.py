@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
+import config
 
 def open_signin_page():
     driver = webdriver.Chrome()
@@ -222,7 +223,7 @@ def test_case_5():
     type_email(driver, email_field, "ardaakcabuyuk@gmail.com")
 
     password_field = driver.find_element(By.NAME, "pass")
-    type_password(password_field, "ardacs1789")
+    type_password(password_field, config.FACEBOOK_PASSWORD)
 
     login_button = driver.find_element(By.NAME, "login")
     login_button.click()
