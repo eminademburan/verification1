@@ -170,6 +170,7 @@ function SigninPage() {
 
             <input
               className="sign-form-input"
+              name="email"
               type="text"
               placeholder="Email Address"
               value={emailAddress}
@@ -178,6 +179,7 @@ function SigninPage() {
             <h5 className="remember-me"> {mailText} </h5>
             <input
               className="sign-form-input"
+              name="password"
               type="password"
               placeholder="Password"
               autoComplete="off"
@@ -192,7 +194,7 @@ function SigninPage() {
             
             <div><input type="checkbox"  onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
             <FacebookLogin
-              appId="997105144497078"
+              appId="462323112206715"
               autoLoad={false}
               fields="name,email,picture"
               callback={responseFacebook}
