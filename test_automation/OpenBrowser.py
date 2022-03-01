@@ -1,4 +1,5 @@
 import time
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -36,17 +37,11 @@ def test_case_1():
 
     driver = webdriver.Chrome("chromedriver")
     driver.get("http://localhost:3000")
-    #email_field = driver.find_element(By.NAME, "email").send_keys(user_email)
-    #password_field = driver.find_element(By.NAME, "password").send_keys(user_password)
 
     #click login
     login_button = driver.find_element(By.CLASS_NAME, "sign-form-Button")
     login_button.click()
 
-    # wait the ready state to be complete
-#     WebDriverWait(driver=driver, timeout=10).until(
-#         lambda x: x.execute_script("return document.readyState === 'complete'")
-#     )
     error_message = "Email adress should be filled"
     error_msg2 = "Password should be filled"
 
@@ -62,6 +57,28 @@ def test_case_1():
 
     time.sleep(60)
     driver.close()
+
+def check_valid_email(email):
+
+    reg = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if(re.fullmatch(reg, email)):
+        print("Valid Email")
+    else:
+        print("Invalid Email")
+
+def check_valid_phone(phone_number):
+
+    phone_pattern = re.compile("(0|90)?[7-9][0-9]{9}")
+    if(phone_pattern.match(phone_number)):
+        print("Valid Phone Number")
+    else:
+        print("Invalid Phone Number")
+
+def test_case_2():
+
+    driver = webdriver.Chrome("chromedriver")
+    driver.get("http://localhost:3000")
+
 
 def main():
     driver = open_signin_page()
@@ -82,4 +99,9 @@ def main():
 
 if __name__ == '__main__':
     #main()
-    test_case_1()
+    check_valid_email('elifozerr1@outlook.com')
+    check_valid_email('email-invalid')
+    check_valid_phone('05064567898')
+    check_valid_phone('905064567898')
+    check_valid_phone('05064')
+    #test_case_1()
