@@ -151,46 +151,47 @@ function SigninPage() {
     getCookies();
     
     return (
-      <header className="header-wrapper-home">
-        <nav className="navbar-signin">
+      <header className="main-wrapper">
+        <nav className="login-navigation">
           <a href="/">
             <img className="logo" href="/" src={netflix_logo} />
           </a>
         </nav>
-        <div className="sign-form-wrapper">
-          <form
-            className="sign-form-base"
-            onSubmit={handleSubmit}
-            method="POST"
-          >
-            <h1 className="sign-form-title">Sign In</h1>
+        <div className="login-wrapper">
+          <form className="login-form" onSubmit={handleSubmit} method="POST">
+            <h1 className="login-title">Sign In</h1>
 
             <input
-              className="sign-form-input"
-              name="email"
+              className="login-input-field"
               type="text"
               placeholder="Email Address"
               value={emailAddress}
               onChange={({ target }) => setEmailAddress(target.value)}
             />
-            <h5 className="empty-email-phone"> {mailText} </h5>
+            <h5 className="remember-me"> {mailText} </h5>
             <input
-              className="sign-form-input"
-              name="password"
+              className="login-input-field"
               type="password"
               placeholder="Password"
               autoComplete="off"
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-            <h5 className="empty-password"> {passwordText} </h5>
-            <button className="sign-form-Button" type="submit" onClick={signIn}>
+            <h5 className="remember-me"> {passwordText} </h5>
+
+            <button className="login-button" type="submit" onClick={signIn}>
               Sign In
             </button>
 
-            <div><input type="checkbox" name="checkbox" onChange={() => setrememberMe(!rememberMe)}/><span className="remember-me">Remember me</span></div>
+            <div>
+              <input
+                type="checkbox"
+                onChange={() => setrememberMe(!rememberMe)}
+              />
+              <span className="remember-me">Remember me</span>
+            </div>
             <FacebookLogin
-              appId="2083176028515656"
+              appId="997105144497078"
               autoLoad={false}
               fields="name,email,picture"
               callback={responseFacebook}
@@ -198,23 +199,23 @@ function SigninPage() {
               icon="fa-facebook"
               textButton="&nbsp;&nbsp;Sign In with Facebook"
             />
-            
-            <p className="sign-form-text">
+
+            <p className="login-text">
               New to Netflix?
-              <a className="sign-form-link"> Sign up now. </a>
+              <a className="login-link"> Sign up now. </a>
             </p>
-            <p className="sign-form-captcha">
+            <p className="login-checkBot">
               This page is protected by Google reCAPTCHA to ensure you are not a
               bot.
             </p>
           </form>
         </div>
-        <footer className="footer-wrapper">
+        <footer className="footer">
           <a href="#" className="footer-title">
             Questions? Contact us.
           </a>
-          <div className="footer-row">
-            <div className="footer-column">
+          <div className="horizontal">
+            <div className="vertical">
               <a href="#" className="footer-link">
                 FAQ
               </a>
@@ -228,7 +229,7 @@ function SigninPage() {
                 Speed Test
               </a>
             </div>
-            <div className="footer-column">
+            <div className="vertical">
               <a href="#" className="footer-link">
                 Help Center
               </a>
@@ -242,7 +243,7 @@ function SigninPage() {
                 Legal Notices
               </a>
             </div>
-            <div className="footer-column">
+            <div className="vertical">
               <a href="#" className="footer-link">
                 Account
               </a>
@@ -259,6 +260,7 @@ function SigninPage() {
           </div>
         </footer>
       </header>
+
     );
   } 
   else if (loggedInWithFacebook) {
